@@ -9,6 +9,10 @@ const token = process.env.TOKEN || TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 bot.onText(/\/estado/, (msg) => {
+    if(msg.chat.id !== CHAT_ID){
+      return;
+    }
+
     bot.sendMessage(CHAT_ID, `
       SERVER: ON\n
       -----------------------
@@ -20,6 +24,9 @@ bot.onText(/\/estado/, (msg) => {
   });
 
 bot.onText(/\/ban (.+)/, async(msg, match) => {
+  if(msg.chat.id !== CHAT_ID){
+    return;
+  }
   const ip = match[1]; // Obtener el dato del mensaje
 
   const request = await guardarIp(ip);
